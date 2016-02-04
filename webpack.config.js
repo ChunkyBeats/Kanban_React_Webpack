@@ -10,6 +10,6 @@ module.exports = {
   entry: PATHS.app,
   output: {
     path: PATHS.build,
-    filename: 'build.js'
+    filename: 'bundle.js'
   }
 };
