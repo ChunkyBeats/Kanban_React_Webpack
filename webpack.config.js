@@ -16,6 +16,13 @@ const common = {
     filename: 'bundle.js'
   },
   module: {
+    preloaders: [
+      {
+        test: /\.jsx?$/,
+        loaders: ['eslint'],
+        include: PATHS.app
+      }
+    ]
     loaders: [
       {
         // Test expects a RegEx! Note the slashes!
