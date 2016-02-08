@@ -23,6 +23,7 @@
     "eslint": "^1.10.3",
     "eslint-loader": "^1.2.1",
     "eslint-plugin-react": "^3.16.1",
+    "npm-install-webpack-plugin": "^2.0.2",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.12",
     "webpack-dev-server": "^1.14.1",

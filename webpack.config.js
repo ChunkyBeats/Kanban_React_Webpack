@@ -1,8 +1,9 @@
 const path = require('path');
 const merge = require('webpack-merge');
-const TARGET = process.env.npm_lifecycle_event;
 const webpack = require('webpack');
+const NpmInstallPlugin = require('npm-install-webpack-plugin');
 
+const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
   app: path.join(__dirname, 'app'),
   build: path.join(__dirname, 'build')
@@ -10,7 +11,9 @@ const PATHS = {
 
 const common = {
   // Entry accepts a path or an object of entries
-  entry: PATHS.app,
+  entry:  {
+    app: PATHS.app
+  },
 
   // Add resolve.extensions.
   // '' is needed to allow imports without an extension
@@ -28,7 +31,7 @@ const common = {
         loaders: ['eslint'],
         include: PATHS.app
       }
-    ]
+    ],
     loaders: [
       {
         // Test expects a RegEx! Note the slashes!
@@ -75,7 +78,10 @@ if(TARGET === 'start' || !TARGET) {
       port: process.env.PORT
     },
     plugins: [
-      new webpack.HotModuleReplacementPlugin()
+      new webpack.HotModuleReplacementPlugin(),
+      new NpmInstallPlugin({
+        save: true // --save
+      })
     ]
   });
 }
