@@ -14,27 +14,24 @@ class LaneStore {
 
     lane.id = uuid.v4();
     lane.notes = lane.notes || [];
-    console.log("lane id - ", lane.id);
 
     this.setState({
       lanes: lanes.concat(lane)
     });
   }
 
-  attachToLane(laneId, noteId) {
-    console.log('turds', laneId);
+  attachToLane(params) {
+    // Object being sent from Lane.jsx is an object {laneId, noteId},
+    // Need to use those props from params.  Was including laneId and noteId
+    //  in an array under laneId before, still unsure why
     const lanes = this.lanes.map(lane => {
-      if(lane.id === laneId) {
-        if(lane.notes.includes(noteId)) {
+      if(lane.id === params.laneId) {
+        if(lane.notes.includes(params.noteId)) {
           console.warn('Already attached note to lane', lanes);
         }
         else {
-          lane.notes.push(noteId);
-          console.log("Note added to lane", lane.notes);
+          lane.notes.push(params.noteId);
         }
-      }
-      else {
-        console.log("Not inside any if, cause laneId =", laneId);
       }
       return lane;
     });

@@ -43,13 +43,12 @@ export default class Lane extends React.Component {
   }
 
   addNote(e) {
-    // Cannot get the id of this.props.lane.id -> made by uuid
-    // Not getting set in props? Does it need to?
-    console.log(this.props.lane);
     const laneId = this.props.lane.id;
     const note = NoteActions.create({task: 'New Task'});
 
-    LaneActions.attachToLane(laneId, note.id);
+    LaneActions.attachToLane({
+      laneId,
+      noteId : note.id});
   }
 
   deleteNote(noteId, e) {
