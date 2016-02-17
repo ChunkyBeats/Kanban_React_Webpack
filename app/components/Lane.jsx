@@ -19,7 +19,7 @@ export default class Lane extends React.Component {
       <div {...props}>
         <div className="lane-header">
           <div className="lane-add-note">
-            <button onClick={this.addNote}>+</button>
+            <button onClick={this.addNote}>Add Note</button>
           </div>
           <div className="lane-name">{lane.name}</div>
         </div>
@@ -42,21 +42,17 @@ export default class Lane extends React.Component {
     NoteActions.update({id, task});
   }
 
-  addNote = (e) => {
+  addNote(e) {
     // Cannot get the id of this.props.lane.id -> made by uuid
     // Not getting set in props? Does it need to?
+    console.log(this.props.lane);
     const laneId = this.props.lane.id;
     const note = NoteActions.create({task: 'New Task'});
-    console.log("note id", note.id);
-    console.log("bleh", this.props.lane.id);
 
-    LaneActions.attachToLane({
-      landId: laneId,
-      noteId: note.id
-    });
-  };
+    LaneActions.attachToLane(laneId, note.id);
+  }
 
-  deleteNote = (noteId, e) => {
+  deleteNote(noteId, e) {
     e.stopPropagation();
 
     const laneId = this.props.lane.id;
