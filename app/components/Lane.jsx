@@ -4,7 +4,14 @@ import Notes from './Notes.jsx';
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 
+import LaneActions from '../actions/LaneActions';
+
 export default class Lane extends React.Component {
+  constructor() {
+    super();
+    this.addNote = this.addNote.bind(this);
+  }
+
   render() {
     const {lane, ...props} = this.props;
 
@@ -19,7 +26,8 @@ export default class Lane extends React.Component {
         <AltContainer
           stores={[NoteStore]}
           inject={{
-            notes: () => NoteStore.getState().notes || []
+            notes: () => NoteStore.getNotesByIds(lane.notes)
+            // notes: () => NoteStore.getState().notes || []
           }}>
           <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
         </AltContainer>
@@ -27,13 +35,33 @@ export default class Lane extends React.Component {
     );
   }
 
-  addNote() {
-    NoteActions.create({task: "New Task"});
-  }
   editNote(id, task) {
+    if(!task.trim()) {
+      return;
+    }
     NoteActions.update({id, task});
   }
-  deleteNote(id) {
-    NoteActions.delete(id);
-  }
+
+  addNote = (e) => {
+    // Cannot get the id of this.props.lane.id -> made by uuid
+    // Not getting set in props? Does it need to?
+    const laneId = this.props.lane.id;
+    const note = NoteActions.create({task: 'New Task'});
+    console.log("note id", note.id);
+    console.log("bleh", this.props.lane.id);
+
+    LaneActions.attachToLane({
+      landId: laneId,
+      noteId: note.id
+    });
+  };
+
+  deleteNote = (noteId, e) => {
+    e.stopPropagation();
+
+    const laneId = this.props.lane.id;
+
+    LaneActions.detachFromLane({laneId, noteId});
+    NoteActions.delete(noteId);
+  };
 }
