@@ -21,7 +21,7 @@ class LaneStore {
     });
   }
 
-  attachToLane({laneId, noteId}) {
+  attachToLane(laneId, noteId) {
     console.log('turds', laneId);
     const lanes = this.lanes.map(lane => {
       if(lane.id === laneId) {
