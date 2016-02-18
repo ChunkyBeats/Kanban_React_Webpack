@@ -20,6 +20,22 @@ class LaneStore {
     });
   }
 
+  update(updatedLane) {
+    const lanes = this.lanes.map(lane => {
+      if(lane.id === updatedLane.id) {
+        return Object.assign({}, lane, updatedLane);
+      }
+      return lane;
+    });
+    this.setState({lanes});
+  }
+
+  delete(id) {
+    this.setState({
+      lanes: this.lanes.filter(lane => lane.id !== id)
+    });
+  }
+
   attachToLane(params) {
     // Object being sent from Lane.jsx is an object {laneId, noteId},
     // Need to use those props from params.  Was including laneId and noteId
