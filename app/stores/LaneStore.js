@@ -42,6 +42,10 @@ class LaneStore {
     // Need to use those props from params.  Was including laneId and noteId
     //  in an array under laneId before, still unsure why
     const lanes = this.lanes.map(lane => {
+      if(lane.notes.includes(params.noteId)) {
+        lane.notes = lane.notes.filter(note => note !== params.noteId);
+      }
+
       if(lane.id === params.laneId) {
         if(lane.notes.includes(params.noteId)) {
           console.warn('Already attached note to lane', lanes);
